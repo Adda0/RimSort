@@ -131,7 +131,7 @@ class ModListItemInner(QWidget):
         settings_controller: SettingsController,
         uuid: str,
         mod_color: QColor,
-        show_tags: bool = False,
+        show_tags: bool = True,
     ) -> None:
         """
         Initialize the QWidget with mod uuid. Metadata can be accessed via MetadataManager.
@@ -589,8 +589,8 @@ class ModListItemInner(QWidget):
         self.item_width = super().width()
 
         available_content_width = max(0, int(self.item_width - icon_width - padding))
-        min_name_width = int(available_content_width * 0.45)
-        max_tags_width = int(available_content_width * 0.35)
+        min_name_width = int(available_content_width * 0.0)
+        max_tags_width = int(available_content_width * 0.50)
 
         tags_width = 0
         if (
@@ -1152,7 +1152,7 @@ class ModListWidget(QListWidget):
         self.translation_lookup: set[str] = set()
 
         # User tags display state. This must survive list rebuilds/sorting.
-        self.show_tags: bool = False
+        self.show_tags: bool = True
 
         self.deletion_sub_menu = ModDeletionMenu(
             self.settings_controller,
@@ -3826,7 +3826,7 @@ class ModListWidget(QListWidget):
         item_data = item.data(Qt.ItemDataRole.UserRole)
         item_data["mod_tags"] = auxdb_get_mod_tags(self.settings_controller, uuid)
         item_data.__dict__["show_tags"] = bool(
-            item_data.__dict__.get("show_tags", False)
+            item_data.__dict__.get("show_tags", True)
         )
         item.setData(Qt.ItemDataRole.UserRole, item_data)
 
